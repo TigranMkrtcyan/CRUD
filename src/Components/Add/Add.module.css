@@ -1,0 +1,30 @@
+.btn {
+    height: 30px;
+    width: 70px;
+    background-color:#0d75ec ;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 2px solid #0d75ec;
+}
+
+.inp {
+    height: 30px;
+    width: 330px;
+    padding: 0;
+    border-radius: 6px;
+    border: 2px solid #d1d3d4;
+    outline: none;
+    color: #111111;
+    padding: 0 10px;
+}
+
+.add {
+    width: 450px;
+    margin-bottom: 20px;
+    margin-top:50px ;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

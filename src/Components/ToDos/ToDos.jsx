@@ -2,6 +2,8 @@ import { useEffect } from "react"
 import { useState } from "react"
 import Add from "../Add/Add"
 
+import style from './ToDOs.module.css'
+
 const ToDos = () => {
     const [todos, setTodos] = useState([])
     const [inp, setInp] = useState('')
@@ -13,6 +15,20 @@ const ToDos = () => {
             .then((res) => res.json())
             .then((res) => setTodos(res))
     }, [])
+
+    const create = () => {
+        fetch(basicUrl + 'todos/', {
+            method: "POST",
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ title: inp, completed: false })
+        }).then((res) => res.json())
+            .then((res) => {
+                setTodos([res, ...todos])
+                setInp('')
+            })
+    }
 
     const remove = (id) => {
         fetch(basicUrl + `todos/${id}`, {
@@ -33,28 +49,25 @@ const ToDos = () => {
         }).then((res) => {
             setTodos((prev) =>
                 prev.map((el) =>
-                    el.id === id ? { ...el, completed: res } : el
+                    el.id === id ? { ...el, completed: !completed } : el
                 )
             );
         })
     }
 
     return (
-        <>
-            <Add />
-            <div>
+            <div className={style.todos}>
+            <Add create={create} inp={inp} setInp={setInp} />
                 {
                     todos.map((el, ind) => (
-                        <div key={ind}>
+                        <div key={ind} className={style.todo}>
                             <input type="checkbox" checked={el.completed} onChange={() => complet(el)} />
-                            <span>{el.title}</span>
-                            <button onClick={() => remove(el.id)}>Delete</button>
-
+                            <span className= {el.completed ? style.line : style.text}>{el.title}</span>
+                            <button onClick={() => remove(el.id)} className= {style.delete}>Delete</button>
                         </div>
                     ))
                 }
             </div>
-        </>
     )
 }
 
